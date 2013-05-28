@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head>
+        <script type="text/javascript" src="../js/emailaddressinput/emailaddressinput.js"></script>
+        <style>
+        
+        body, input { font: 13px Helvetica, arial, freesans, clean, sans-serif; }
+        </style>
+    </head>
+    <body>
+        Recipient:
+        <div style="width:500px">
+            <div id="txtRecipient"></div>
+            <div style="display:none"><input type="text" id="lblRecipient" /></div>
+        </div>
+
+        CC:
+        <div style="width:500px">
+            <div id="txtCC"></div>
+            <div style="display:none"><input type="text" id="lblCC" /></div>
+        </div>
+
+        BCC: 
+        <div style="width:500px">
+            <div id="txtBCC"></div>
+            <div style="display:none"><input type="text" id="lblBCC" /></div>
+        </div>
+    </body>
+
+    <script language="javascript" type="text/javascript">
+
+    var ctlRecipient = BLASS.EmailAddressInput;
+    var ctlCC = BLASS.EmailAddressInput.clone();
+    var ctlBCC = BLASS.EmailAddressInput.clone();
+
+    // init
+    function init() {
+        ctlRecipient.init("txtRecipient", { id: "Recipient"}, { handler: null, callback: null });
+        ctlCC.init("txtCC", {id: "CC"}, { handler: null, callback: null });
+        ctlBCC.init("txtBCC", {id: "BCC"}, { handler: null, callback: null });
+
+        var recipient = document.getElementById("lblRecipient").innerHTML.split(',');
+        var cc = document.getElementById("lblCC").innerHTML.split(',');
+        var bcc = document.getElementById("lblBCC").innerHTML.split(',');
+
+        for(var i=0; i<recipient.length; i++) {
+            var address = recipient[i].trim().split('|');
+            if(address.length < 3 || address[0] != "G") ctlRecipient.createAddressBox({text: recipient[i], value: getEmail(recipient[i]) });
+            else ctlRecipient.createAddressBox({text: address[1], value: recipient[i], validation: true});
+        }
+        for(var i=0; i<cc.length; i++) ctlCC.createAddressBox({text: cc[i], value: getEmail(cc[i]) });
+        for(var i=0; i<bcc.length; i++) ctlBCC.createAddressBox({text: bcc[i], value: getEmail(bcc[i]) });
+    }
+
+    function getEmail(val) {
+        val = val.replace("&lt;", "<");
+        val = val.replace("&gt;", ">");
+        var match = val.match(/<?([A-Za-z0-9_\-\.]+\@[A-Za-z0-9_\-\.]+\.[A-Za-z]{2,4})>?$/);
+        if(match && match.length > 1) val = match[1];
+        return val;
+    }
+
+    init();
+
+    </script>   
+ 
+</html>
+
