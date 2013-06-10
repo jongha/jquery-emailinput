@@ -245,6 +245,11 @@ BLASS.EmailAddressInput = {
         this._virtualAddressInput.select();
         this._virtualAddressInput.focus();
     },
+    focus: function() {
+        "use strict";
+        
+        this._focusVirtualAddressInput();
+    },
     getAddresses: function () {
         "use strict";
         
