@@ -1,4 +1,6 @@
-﻿var BLASS = BLASS || {};
+/*jslint nomen: true, white: true, browser: true, vars: true, plusplus: true, bitwise: true, devel: true */
+
+var BLASS = BLASS || {};
 BLASS.EmailAddressInput = {
     _inputTable: null,                          // object 생성을 위한 객에 id
     _tableObj: null,                            // object가 최초에 생성되는 객체
@@ -26,12 +28,13 @@ BLASS.EmailAddressInput = {
     _checkInputBuffer: null,                    // 입력 데이트 체크를 위한 버퍼
     _existCSS: false,                           // 여러 컨트롤 한페이지에 로드할경우 CSS한번만 구현하기위한 싱글톤
     init: function (inputTable, inputStyle, autoCompleteHandler) {
+        "use strict";
         
-        if (inputTable) this._inputTable = inputTable;
-        if (this._inputTable) this._tableObj = document.getElementById(this._inputTable);
+        if (inputTable) { this._inputTable = inputTable; }
+        if (this._inputTable) { this._tableObj = document.getElementById(this._inputTable); }
         if (autoCompleteHandler) {
-            if (autoCompleteHandler.handler) this._autoCompleteHandler = autoCompleteHandler.handler;
-            if (autoCompleteHandler.callback) this._autoCompleteCallback = autoCompleteHandler.callback;
+            if (autoCompleteHandler.handler) { this._autoCompleteHandler = autoCompleteHandler.handler; }
+            if (autoCompleteHandler.callback) { this._autoCompleteCallback = autoCompleteHandler.callback; }
         }
 
         this._inputStyle = {
@@ -42,24 +45,32 @@ BLASS.EmailAddressInput = {
             id: (inputStyle && inputStyle.id) ? inputStyle.id : ""
         };
 
-        this._addressBoxList = new Array();
+        this._addressBoxList = [];
         this._createCSS();
         this._createInput();
     },
     clone: function (obj, recursive) {
-        if (!recursive && !obj) obj = this;
-        if (obj == null || typeof (obj) != 'object')
-            return obj;
+        "use strict";
+        
+        if (!recursive && !obj) { obj = this; }
+        if (obj === null || typeof (obj) !== 'object') { return obj; }
 
         var newObj = new obj.constructor();
-        for (var key in obj)
-            newObj[key] = obj.clone(obj[key], true);
+        
+        var key;
+        for(key in obj) { 
+            if(obj.hasOwnProperty(key)) {
+                newObj[key] = obj.clone(obj[key], true); 
+            }
+        }
 
         newObj._existCSS = true;
         return newObj;
     },
     _createInput: function () {
-        if (!this._tableObj) return;
+        "use strict";
+        
+        if (!this._tableObj) { return; }
 
         this._inputDiv = this._getInput();
         this._inputRuler = this._getRuler();
@@ -94,14 +105,18 @@ BLASS.EmailAddressInput = {
         };
     },
     _getAutoComplete: function () {
+        "use strict";
+        
         var obj = document.createElement("div");
         obj.className = "blass_eai_ac";
         return obj;
     },
     _setAutoCompleteData: function (address) {
+        "use strict";
+        
         if (!this._autoCompleteHandler ||
         !this._selectedAutoCompleteProcess ||
-        !address) return; // 헨들러가 없거나 진행중이면 취소
+        !address) { return; } // 헨들러가 없거나 진행중이면 취소
 
         this._selectedAutoCompleteProcess = false; // 진행 시작
         this._resetAutoCompleteData();
@@ -116,25 +131,32 @@ BLASS.EmailAddressInput = {
         }
     },
     setAutoCompleteCallBack: function (data) { // callback 후 호출해야할 메소드
+        "use strict";
+        
         this._autoCompleteData = data;
         this._showAutoCompleteLayer();
     },
     _showAutoCompleteLayer: function () {
+        "use strict";
+        
         this._selectedAutoCompleteProcess = true; // 진행 끝
-        if (!this._autoCompleteData || this._autoCompleteData.length == 0) return;
+        if (!this._autoCompleteData || this._autoCompleteData.length === 0) { return; }
 
-        for (var i = 0; i < this._autoCompleteData.length; i++) {
+        var i;
+        for (i = 0; i < this._autoCompleteData.length; ++i) {
+            
             var obj = document.createElement("div");
             obj.innerHTML = this._autoCompleteData[i].text;
             obj.className = "blass_eai_aclayer";
             obj.blass = this;
             obj.index = i;
             obj.onclick = function (evt) { // autocomplete layer 클릭시 입력
-                var evt = { keyCode: 13 };
+                evt = { keyCode: 13 };
                 this.blass._selectedAutoCompleteIndex = this.index;
                 this.blass._createAddressInput(evt, this.blass._virtualAddressInput);
                 this.blass._focusVirtualAddressInput();
-            }
+            };
+            
             this._autoCompleteDiv.appendChild(obj);
             this._autoCompleteResult.push(obj);
         }
@@ -142,7 +164,9 @@ BLASS.EmailAddressInput = {
         this._selectAutoCompleteData(1);
     },
     _selectAutoCompleteData: function (increase) {
-        if (!this._autoCompleteData || this._autoCompleteData.length == 0) return;
+        "use strict";
+        
+        if (!this._autoCompleteData || this._autoCompleteData.length === 0) { return; }
         if (this._selectedAutoCompleteIndex >= 0) {
             this._autoCompleteResult[this._selectedAutoCompleteIndex].className = "blass_eai_aclayer blass_eai_normal";
         }
@@ -152,70 +176,93 @@ BLASS.EmailAddressInput = {
             return; // 선택한것 없음. 초기설정
         }
 
-        if (this._selectedAutoCompleteIndex < 0) this._selectedAutoCompleteIndex = 0;
+        if (this._selectedAutoCompleteIndex < 0) { this._selectedAutoCompleteIndex = 0; }
         if (this._selectedAutoCompleteIndex >= this._autoCompleteResult.length) {
             this._selectedAutoCompleteIndex = this._autoCompleteResult.length - 1;
         }
         this._autoCompleteResult[this._selectedAutoCompleteIndex].className = "blass_eai_aclayer blass_eai_select";
     },
     _resetAutoCompleteData: function () {
+        "use strict";
+        
         this._autoCompleteDiv.style.visibility = "hidden";
+        
+        var r;
         for (r = this._autoCompleteDiv.childNodes.length - 1; r >= 0; r--) {
             this._autoCompleteDiv.removeChild(this._autoCompleteDiv.childNodes[r]);
         }
         this._selectedAutoCompleteIndex = -1;
         this._autoCompleteData = null;
-        this._autoCompleteResult = new Array();
+        this._autoCompleteResult = [];
     },
     _getAddressBoxId: function () { // 아이디 생성
+        "use strict";
+        
         return this._addressBoxIdPrefix + this._inputStyle.id + (++this._addressBoxId);
     },
     _getInput: function () { // 컨트롤 포괄 div
+        "use strict";
+        
         var obj = document.createElement("div");
         obj.className = "blass_eai_inputdiv";
         obj.width = this._inputStyle.width;
         return obj;
     },
     _getRuler: function () { // 컨트롤 길이 결정하기 위한 ruler div
+        "use strict";
+        
         var obj = document.createElement("div");
         obj.className = "blass_eai_ruler";
         obj.width = this._inputStyle.width;
         return obj;
     },
     _getAddressBoxLi: function () {
+        "use strict";
+        
         var obj = document.createElement("li");
         obj.id = this._getAddressBoxId();
         obj.className = "blass_eai_li";
         return obj;
     },
     _getAddressBoxUl: function () { // 내부 박스를 위한 ul
+        "use strict";
+        
         var obj = document.createElement("ul");
         obj.className = "blass_eai_ul";
         return obj;
     },
     _getVirtualAddressInput: function () { // 텍스트 입력을 받을 input, 실제로 보이지는 않음.
+        "use strict";
+        
         var obj = document.createElement("input");
         obj.type = "text";
         obj.className = "blass_eai_input";
         return obj;
     },
     _focusVirtualAddressInput: function () {
+        "use strict";
+        
         this._virtualAddressInput.select();
         this._virtualAddressInput.focus();
     },
     getAddresses: function () {
+        "use strict";
+        
         var addresses = "";
-        for (var i = 1; i < this._addressBoxList.length; i++) {
+        var i;
+        for (i = 1; i < this._addressBoxList.length; i++) {
             if (this._addressBoxList[i].objValue && this._addressBoxList[i].isValid) { // 유효한 메일 주소만 추출
                 addresses += this._addressBoxList[i].objValue + ",";
             }
         }
-        if (addresses.substr(addresses.length - 1, 1) == ",") addresses = addresses.substr(0, addresses.length - 1);
+        if (addresses.substr(addresses.length - 1, 1) === ",") { addresses = addresses.substr(0, addresses.length - 1); }
         return addresses;
     },
     createAddressBox: function (addressObj) { // 주소 박스 등록
+        "use strict";
+        
         var address = addressObj.text;
-        if (address == "") return;
+        if (address === "") { return; }
         var isValid = (!addressObj.validation) ? this.validation(addressObj.value) : addressObj.validation;
 
         // 주소 등록용 li
@@ -227,7 +274,7 @@ BLASS.EmailAddressInput = {
 
         // 주소 필드 생성
         var addressSpan = document.createElement("span");
-        addressSpan.className = "blass_eai_address"
+        addressSpan.className = "blass_eai_address";
         addressSpan.innerHTML = address;
         addressBoxLi.appendChild(addressSpan);
 
@@ -240,13 +287,15 @@ BLASS.EmailAddressInput = {
         addressDel.blass = this;
         addressDel.onclick = function () {
             this.blass._removeAddressBox(this.parentNode.id);
-        }
+        };
 
         this._addressBoxUl.insertBefore(addressBoxLi, this._addressBoxList[0]);
         this._addressBoxList.push(addressBoxLi);
     },
     _createCSS: function () {
-        if (this._existCSS) return;
+        "use strict";
+        
+        if (this._existCSS) { return; }
         var style = document.createElement("style");
         var def = ".blass_eai_ac { border: solid 1px #cccccc; width: 500px; visibility: hidden; position: absolute; background-color:#ffffff; padding: 5px; z-index: 1000; font-size:" + this._inputStyle.fontSize + "; }";
         def += ".blass_eai_aclayer { padding: 0px 0px 3px 0px; cursor:pointer }";
@@ -254,16 +303,16 @@ BLASS.EmailAddressInput = {
         def += ".blass_eai_normal { font-weight: normal; }";
 
         var exception = false;
-        if (navigator.appName == "Microsoft Internet Explorer") { // IE확인
+        if (navigator.appName === "Microsoft Internet Explorer") { // IE확인
             var ua = navigator.userAgent;
-            var real_ver = parseInt(ua.substring(ua.indexOf("MSIE ") + 5)); // IE 6 이하버전만..
+            var real_ver = parseInt(ua.substring(ua.indexOf("MSIE ") + 5), null); // IE 6 이하버전만..
             if (real_ver <= 6) {
                 exception = true;
                 def += ".blass_eai_inputdiv { height: 22px; padding:1px; cursor:text; border:" + this._inputStyle.border + "; }";
             }
         }
 
-        if (!exception) def += ".blass_eai_inputdiv { max-height: 46px; overflow-y: auto; padding:1px; cursor:text; border:" + this._inputStyle.border + "; }";
+        if (!exception) { def += ".blass_eai_inputdiv { max-height: 46px; overflow-y: auto; padding:1px; cursor:text; border:" + this._inputStyle.border + "; }"; }
         def += ".blass_eai_li { margin-left:6px; }";
         def += ".blass_eai_ul { list-style-type:none; margin:0px; padding:0px; }";
         def += ".blass_eai_input { outline:none; width:50px; height: 18px; margin-top: 3px; padding:0px 0px 0px 3px; border:0px solid #ffffff; overflow:hidden; float:left; }";
@@ -285,28 +334,38 @@ BLASS.EmailAddressInput = {
             style.appendChild(tnode);
         }
         var hd = document.getElementsByTagName('head')[0];
-        if (hd) hd.appendChild(style);
+        if (hd) { hd.appendChild(style); }
         this._existCSS = true;
     },
     removeAllAddressBox: function () {
-        if (this._addressBoxList.length <= 1) return;
-        for (var i = this._addressBoxList.length - 1; i > 0; i--) {
+        "use strict";
+        
+        if (this._addressBoxList.length <= 1) { return; }
+        
+        var i;
+        for (i = this._addressBoxList.length - 1; i > 0; i--) {
             this._removeAddressBox(this._addressBoxList[i].id);
         }
         this._resetVirtualAddressInput();
         this._resetAutoCompleteData();
     },
     _resetVirtualAddressInput: function () {
+        "use strict";
+        
         this._virtualAddressInput.value = "";
         this._inputRuler.innerHTML = "";
     },
     _removeAddressBox: function (id) {
-        if (this._addressBoxList.length <= 1) return;
-        if (!id) id = this._addressBoxList[this._addressBoxList.length - 1].id;
+        "use strict";
+        
+        if (this._addressBoxList.length <= 1) { return; }
+        if (!id) { id = this._addressBoxList[this._addressBoxList.length - 1].id; }
         var deleteObj = document.getElementById(id);
-        var tmpList = new Array();
-        for (var i = 0; i < this._addressBoxList.length; i++) {
-            if (this._addressBoxList[i].id != id) {
+        var tmpList = [];
+        
+        var i;
+        for (i = 0; i < this._addressBoxList.length; i++) {
+            if (this._addressBoxList[i].id !== id) {
                 tmpList.push(this._addressBoxList[i]);
             }
         }
@@ -314,10 +373,14 @@ BLASS.EmailAddressInput = {
         this._addressBoxUl.removeChild(document.getElementById(id));
     },
     _intervalCheckInput: function () {
+        "use strict";
+        
         setTimeout(this._intervalCheckInput(), 1000);
     },
     _createAddressInput: function (evt, obj) {
-        var hEvent = (evt) ? evt : event;
+        "use strict";
+        
+        var hEvent = evt || event;
         switch (hEvent.keyCode) {
             case 13:    // enter
             case 32:    // space
@@ -332,8 +395,8 @@ BLASS.EmailAddressInput = {
                 }
 
                 obj.value = obj.value.replace(/^[,;\s]*/, '').replace(/[,;\s]*$/, ''); // trim
-                if (!selectedValue) selectedValue = obj.value;
-                if (obj.value == "") return;
+                if (!selectedValue) { selectedValue = obj.value; }
+                if (obj.value === "") { return; }
 
                 //                if (!isValid) { // validation 이 false이면 autocomplete의 가장 첫번째 목록으로 채워줌
                 //                    if (this._autoCompleteData && this._autoCompleteData.length > 0) {
@@ -361,16 +424,19 @@ BLASS.EmailAddressInput = {
                 this._inputRuler.innerHTML = obj.value;
                 //this._setAutoCompleteData(obj.value);
                 break;
-        };
+        }
+        
         this._resizeVirtualAddressInput();
-        return !(hEvent.keyCode == 13); // enter 일때 return false
+        return hEvent.keyCode !== 13; // enter 일때 return false
     },
     _createAddressSpecialInput: function (evt, obj) { // 특수키 입력 처리 핸들러
+        "use strict";
+        
         var result = true;
-        var hEvent = (evt) ? evt : event;
+        var hEvent = evt || event;
         switch (hEvent.keyCode) {
             case 8:    // backspace
-                if (obj.value == "") {
+                if (obj.value === "") {
                     this._resetAutoCompleteData(); // autoComplete box 초기화
                     this._removeAddressBox();
                 }
@@ -378,29 +444,34 @@ BLASS.EmailAddressInput = {
 
             case 40:    // 아래 이동
             case 38:    // 위 이동
-                this._selectAutoCompleteData((hEvent.keyCode == 40) ? 1 : -1);
+                this._selectAutoCompleteData((hEvent.keyCode === 40) ? 1 : -1);
                 break;
 
             default:
                 //this._inputRuler.innerHTML = obj.value;
                 break;
-        };
+        }
+        
         this._resizeVirtualAddressInput();
-        return !(hEvent.keyCode == 13); // enter 일때 return false
+        return hEvent.keyCode !== 13; // enter 일때 return false
     },
     _checkInputResetCounter: function () {
+        "use strict";
+        
         this._checkInputCounter = 2;
     },
     _checkInputData: function () {
+        "use strict";
+        
         if (this._checkInput) {
             var blass = this;
             setTimeout(function () {
-                if (blass._checkInputBuffer != blass._virtualAddressInput.value) {
+                if (blass._checkInputBuffer !== blass._virtualAddressInput.value) {
                     blass._checkInputResetCounter();
                     blass._checkInputBuffer = blass._virtualAddressInput.value;
                 } else {
                     if (blass._checkInputBuffer && // 입력 버퍼 확인
-                        blass._autoCompleteLast != blass._checkInputBuffer) { // 입력없이 가만히 있는 부분 체크
+                        blass._autoCompleteLast !== blass._checkInputBuffer) { // 입력없이 가만히 있는 부분 체크
                         --blass._checkInputCounter;
                         if (blass._checkInputCounter <= 0) {
                             blass._checkInputResetCounter();
@@ -414,14 +485,20 @@ BLASS.EmailAddressInput = {
         }
     },
     _resizeVirtualAddressInput: function () {
+        "use strict";
+        
         this._virtualAddressInput.style.width = this.getInputWidth(this._inputRuler);
     },
     getInputWidth: function (ruler) {
+        "use strict";
+        
         var setWidth = ruler.offsetWidth + 20;
-        if (setWidth < 50) setWidth = 50;
+        if (setWidth < 50) { setWidth = 50; }
         return setWidth + "px";
     },
     validation: function (address) {
+        "use strict";
+        
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         return reg.test(address);
     }
