@@ -27,3 +27,6 @@ eai_to.getAddresses();
 ...
 eai_to.getAddresses().join(",");
 ```
+
+## `Documentation`
+Documentation and examples are here: http://jongha.github.io/emailaddressinput.js
