@@ -1,6 +1,7 @@
 /*jslint nomen: true, white: true, browser: true, vars: true, plusplus: true, bitwise: true, devel: true */
 
-var EmailAddressInput = {
+var BLASS = BLASS || {};
+BLASS.EmailAddressInput = {
     _inputTable: null,                          // object 생성을 위한 객에 id
     _tableObj: null,                            // object가 최초에 생성되는 객체
     _inputDiv: null,                            // 전체 컨트롤을 포괄 div
@@ -10,7 +11,7 @@ var EmailAddressInput = {
     _addressBoxUl: null,                        // address box
     _addressBoxList: null,                      // li 객체 리스트 (index 1부터 실제 데이터, 0은 텍스트 박스용)
     _addressBoxId: 0,                           // 아이디 인덱스
-    _addressBoxIdPrefix: "__EMAILINPUT_",       // 동적생성 아이디 prefix
+    _addressBoxIdPrefix: "__BLASS_EMAILINPUT_", // 동적생성 아이디 prefix
     _autoCompleteHandler: null,
     _autoCompleteCallback: null,
     _autoCompleteDiv: null,
@@ -89,25 +90,25 @@ var EmailAddressInput = {
         this._tableObj.appendChild(this._inputDiv);
         this._tableObj.appendChild(this._autoCompleteDiv);
 
-        this._inputDiv._this = this;
-        this._virtualAddressInput._this = this;
-        this._inputDiv.onclick = function (evt) { this._this._focusVirtualAddressInput(evt); }; // 삭제버튼 클릭
-        this._virtualAddressInput.onkeyup = function (evt) { return this._this._createAddressInput(evt, this); }; // 키 입력
-        this._virtualAddressInput.onkeydown = function (evt) { return this._this._createAddressSpecialInput(evt, this); }; // 특수 키 입력
+        this._inputDiv.blass = this;
+        this._virtualAddressInput.blass = this;
+        this._inputDiv.onclick = function (evt) { this.blass._focusVirtualAddressInput(evt); }; // 삭제버튼 클릭
+        this._virtualAddressInput.onkeyup = function (evt) { return this.blass._createAddressInput(evt, this); }; // 키 입력
+        this._virtualAddressInput.onkeydown = function (evt) { return this.blass._createAddressSpecialInput(evt, this); }; // 특수 키 입력
         this._virtualAddressInput.onkeypress = function (evt) { // 이벤트 발생 시작
-            this._this._checkInput = true;
-            this._this._checkInputData();
+            this.blass._checkInput = true;
+            this.blass._checkInputData();
         };
         this._virtualAddressInput.onblur = function (evt) { // 이벤트 발생 중지
-            this._this._createAddressInput({ keyCode: 13 }, this);
-            this._this._checkInput = false;
+            this.blass._createAddressInput({ keyCode: 13 }, this);
+            this.blass._checkInput = false;
         };
     },
     _getAutoComplete: function () {
         "use strict";
         
         var obj = document.createElement("div");
-        obj.className = "eai_ac";
+        obj.className = "blass_eai_ac";
         return obj;
     },
     _setAutoCompleteData: function (address) {
@@ -125,7 +126,7 @@ var EmailAddressInput = {
             this._autoCompleteData = this._autoCompleteHandler(address);
             this._showAutoCompleteLayer();
         } else { // call back
-            this._autoCompleteCallback._this = this;
+            this._autoCompleteCallback.blass = this;
             this._autoCompleteHandler(address, this._autoCompleteCallback);
         }
     },
@@ -146,14 +147,14 @@ var EmailAddressInput = {
             
             var obj = document.createElement("div");
             obj.innerHTML = this._autoCompleteData[i].text;
-            obj.className = "eai_aclayer";
-            obj._this = this;
+            obj.className = "blass_eai_aclayer";
+            obj.blass = this;
             obj.index = i;
             obj.onclick = function (evt) { // autocomplete layer 클릭시 입력
                 evt = { keyCode: 13 };
-                this._this._selectedAutoCompleteIndex = this.index;
-                this._this._createAddressInput(evt, this._this._virtualAddressInput);
-                this._this._focusVirtualAddressInput();
+                this.blass._selectedAutoCompleteIndex = this.index;
+                this.blass._createAddressInput(evt, this.blass._virtualAddressInput);
+                this.blass._focusVirtualAddressInput();
             };
             
             this._autoCompleteDiv.appendChild(obj);
@@ -167,7 +168,7 @@ var EmailAddressInput = {
         
         if (!this._autoCompleteData || this._autoCompleteData.length === 0) { return; }
         if (this._selectedAutoCompleteIndex >= 0) {
-            this._autoCompleteResult[this._selectedAutoCompleteIndex].className = "eai_aclayer eai_normal";
+            this._autoCompleteResult[this._selectedAutoCompleteIndex].className = "blass_eai_aclayer blass_eai_normal";
         }
         this._selectedAutoCompleteIndex += increase;
         if (this._selectedAutoCompleteIndex < 0) {
@@ -179,7 +180,7 @@ var EmailAddressInput = {
         if (this._selectedAutoCompleteIndex >= this._autoCompleteResult.length) {
             this._selectedAutoCompleteIndex = this._autoCompleteResult.length - 1;
         }
-        this._autoCompleteResult[this._selectedAutoCompleteIndex].className = "eai_aclayer eai_select";
+        this._autoCompleteResult[this._selectedAutoCompleteIndex].className = "blass_eai_aclayer blass_eai_select";
     },
     _resetAutoCompleteData: function () {
         "use strict";
@@ -203,7 +204,7 @@ var EmailAddressInput = {
         "use strict";
         
         var obj = document.createElement("div");
-        obj.className = "eai_inputdiv";
+        obj.className = "blass_eai_inputdiv";
         obj.width = this._inputStyle.width;
         return obj;
     },
@@ -211,7 +212,7 @@ var EmailAddressInput = {
         "use strict";
         
         var obj = document.createElement("div");
-        obj.className = "eai_ruler";
+        obj.className = "blass_eai_ruler";
         obj.width = this._inputStyle.width;
         return obj;
     },
@@ -220,14 +221,14 @@ var EmailAddressInput = {
         
         var obj = document.createElement("li");
         obj.id = this._getAddressBoxId();
-        obj.className = "eai_li";
+        obj.className = "blass_eai_li";
         return obj;
     },
     _getAddressBoxUl: function () { // 내부 박스를 위한 ul
         "use strict";
         
         var obj = document.createElement("ul");
-        obj.className = "eai_ul";
+        obj.className = "blass_eai_ul";
         return obj;
     },
     _getVirtualAddressInput: function () { // 텍스트 입력을 받을 input, 실제로 보이지는 않음.
@@ -235,7 +236,7 @@ var EmailAddressInput = {
         
         var obj = document.createElement("input");
         obj.type = "text";
-        obj.className = "eai_input";
+        obj.className = "blass_eai_input";
         return obj;
     },
     _focusVirtualAddressInput: function () {
@@ -252,13 +253,14 @@ var EmailAddressInput = {
     getAddresses: function () {
         "use strict";
         
-        var addresses = [];
+        var addresses = "";
         var i;
         for (i = 1; i < this._addressBoxList.length; i++) {
             if (this._addressBoxList[i].objValue && this._addressBoxList[i].isValid) { // 유효한 메일 주소만 추출
-                addresses.push(this._addressBoxList[i].objValue);
+                addresses += this._addressBoxList[i].objValue + ",";
             }
         }
+        if (addresses.substr(addresses.length - 1, 1) === ",") { addresses = addresses.substr(0, addresses.length - 1); }
         return addresses;
     },
     createAddressBox: function (addressObj) { // 주소 박스 등록
@@ -270,26 +272,26 @@ var EmailAddressInput = {
 
         // 주소 등록용 li
         var addressBoxLi = document.createElement("li");
-        addressBoxLi.className = "eai_box " + ((isValid) ? "eai_valid" : "eai_invalid");
+        addressBoxLi.className = "blass_eai_box " + ((isValid) ? "blass_eai_valid" : "blass_eai_invalid");
         addressBoxLi.id = this._getAddressBoxId();
         addressBoxLi.objValue = addressObj.value;
         addressBoxLi.isValid = isValid;
 
         // 주소 필드 생성
         var addressSpan = document.createElement("span");
-        addressSpan.className = "eai_address";
+        addressSpan.className = "blass_eai_address";
         addressSpan.innerHTML = address;
         addressBoxLi.appendChild(addressSpan);
 
         // 삭제 버튼 생성
         var addressDel = document.createElement("span");
-        addressDel.className = "eai_delete";
+        addressDel.className = "blass_eai_delete";
         addressBoxLi.appendChild(addressDel);
 
         // 삭제 버튼 클릭시
-        addressDel._this = this;
+        addressDel.blass = this;
         addressDel.onclick = function () {
-            this._this._removeAddressBox(this.parentNode.id);
+            this.blass._removeAddressBox(this.parentNode.id);
         };
 
         this._addressBoxUl.insertBefore(addressBoxLi, this._addressBoxList[0]);
@@ -298,12 +300,15 @@ var EmailAddressInput = {
     _createCSS: function () {
         "use strict";
         
-        if (this._existCSS) { return; }
+        var css_id = "blass_eai";
+        if (this._existCSS || document.getElementById(css_id)) { return; }
         var style = document.createElement("style");
-        var def = ".eai_ac { border: solid 1px #cccccc; width: 500px; visibility: hidden; position: absolute; background-color:#ffffff; padding: 5px; z-index: 1000; font-size:" + this._inputStyle.fontSize + "; }";
-        def += ".eai_aclayer { padding: 0px 0px 3px 0px; cursor:pointer }";
-        def += ".eai_select { font-weight: bold; }";
-        def += ".eai_normal { font-weight: normal; }";
+        style.id = css_id;
+        
+        var def = ".blass_eai_ac { border: solid 1px #cccccc; width: 500px; visibility: hidden; position: absolute; background-color:#ffffff; padding: 5px; z-index: 1000; font-size:" + this._inputStyle.fontSize + "; }";
+        def += ".blass_eai_aclayer { padding: 0px 0px 3px 0px; cursor:pointer }";
+        def += ".blass_eai_select { font-weight: bold; }";
+        def += ".blass_eai_normal { font-weight: normal; }";
 
         var exception = false;
         if (navigator.appName === "Microsoft Internet Explorer") { // IE확인
@@ -311,23 +316,23 @@ var EmailAddressInput = {
             var real_ver = parseInt(ua.substring(ua.indexOf("MSIE ") + 5), null); // IE 6 이하버전만..
             if (real_ver <= 6) {
                 exception = true;
-                def += ".eai_inputdiv { height: 22px; padding:1px; cursor:text; border:" + this._inputStyle.border + "; }";
+                def += ".blass_eai_inputdiv { height: 22px; padding:1px; cursor:text; border:" + this._inputStyle.border + "; }";
             }
         }
 
-        if (!exception) { def += ".eai_inputdiv { max-height: 46px; overflow-y: auto; padding:1px; cursor:text; border:" + this._inputStyle.border + "; }"; }
-        def += ".eai_li { margin-left:6px; }";
-        def += ".eai_ul { list-style-type:none; margin:0px; padding:0px; }";
-        def += ".eai_input { outline:none; width:50px; height: 18px; margin-top: 3px; padding:0px 0px 0px 3px; border:0px solid #ffffff; overflow:hidden; float:left; }";
-        def += ".eai_box { display:block; height: 14px; margin:1px; padding:2px 7px; width:auto; float:left; }";
+        if (!exception) { def += ".blass_eai_inputdiv { max-height: 52px; overflow-y: auto; padding:1px; cursor:text; border:" + this._inputStyle.border + "; }"; }
+        def += ".blass_eai_li { margin-left:6px; }";
+        def += ".blass_eai_ul { list-style-type:none; margin:0px; padding:0px; }";
+        def += ".blass_eai_input { outline:none; width:50px; height: 18px; margin-top: 3px; padding:0px 0px 0px 3px; border:0px solid #ffffff; overflow:hidden; float:left; }";
+        def += ".blass_eai_box { display:block; margin:1px; padding:1px 3px; width:auto; float:left; }";
 
-        def += ".eai_ruler { position: absolute; overflow:hidden; visibility:hidden; z-index:-1; }";
-        def += ".eai_valid { border:1px solid #bbd8fb; background-color:#f3f7fd; }";
-        def += ".eai_invalid { border:1px solid #b55e5e; background-color:#fdf5f5; }";
-        def += ".eai_delete { cursor:pointer; margin:2px 0px 0px 5px; float:left; width:9px; height:9px; }";
-        def += ".eai_valid .eai_delete { background:url(data:image/gif;base64,R0lGODlhCQAJAKIAAJu226O83pOx15u32////////wAAAAAAACH5BAEAAAUALAAAAAAJAAkAAAMaGLo6ATAC8Ui0FFo7n44ZsEEZJ3YSOAhsyyYAOw==) no-repeat; }";
-        def += ".eai_invalid .eai_delete { background:url(data:image/gif;base64,R0lGODlhCQAJAKIAALukpaqQkrSanKKGif708v///wAAAAAAACH5BAEAAAUALAAAAAAJAAkAAAMaCLoqEDCG8Ui0FFo7n45ZsEEZJ3YSOKwsmwAAOw==) no-repeat; }";
-        def += ".eai_address { float:left; }";
+        def += ".blass_eai_ruler { position: absolute; overflow:hidden; visibility:hidden; z-index:-1; }";
+        def += ".blass_eai_valid { border:1px solid #bbd8fb; background-color:#f3f7fd; }";
+        def += ".blass_eai_invalid { border:1px solid #b55e5e; background-color:#fdf5f5; }";
+        def += ".blass_eai_delete { cursor:pointer; margin:5px 0px 0px 5px; float:left; width:9px; height:9px; }";
+        def += ".blass_eai_valid .blass_eai_delete { background:url(data:image/gif;base64,R0lGODlhCQAJAKIAAJu226O83pOx15u32////////wAAAAAAACH5BAEAAAUALAAAAAAJAAkAAAMaGLo6ATAC8Ui0FFo7n44ZsEEZJ3YSOAhsyyYAOw==) no-repeat; }";
+        def += ".blass_eai_invalid .blass_eai_delete { background:url(data:image/gif;base64,R0lGODlhCQAJAKIAALukpaqQkrSanKKGif708v///wAAAAAAACH5BAEAAAUALAAAAAAJAAkAAAMaCLoqEDCG8Ui0FFo7n45ZsEEZJ3YSOKwsmwAAOw==) no-repeat; }";
+        def += ".blass_eai_address { float:left; }";
 
         style.setAttribute("type", "text/css");
         if (style.styleSheet) {     // IE
@@ -467,23 +472,23 @@ var EmailAddressInput = {
         "use strict";
         
         if (this._checkInput) {
-            var _this = this;
+            var blass = this;
             setTimeout(function () {
-                if (_this._checkInputBuffer !== _this._virtualAddressInput.value) {
-                    _this._checkInputResetCounter();
-                    _this._checkInputBuffer = _this._virtualAddressInput.value;
+                if (blass._checkInputBuffer !== blass._virtualAddressInput.value) {
+                    blass._checkInputResetCounter();
+                    blass._checkInputBuffer = blass._virtualAddressInput.value;
                 } else {
-                    if (_this._checkInputBuffer && // 입력 버퍼 확인
-                        _this._autoCompleteLast !== _this._checkInputBuffer) { // 입력없이 가만히 있는 부분 체크
-                        --_this._checkInputCounter;
-                        if (_this._checkInputCounter <= 0) {
-                            _this._checkInputResetCounter();
-                            _this._setAutoCompleteData(_this._virtualAddressInput.value);
+                    if (blass._checkInputBuffer && // 입력 버퍼 확인
+                        blass._autoCompleteLast !== blass._checkInputBuffer) { // 입력없이 가만히 있는 부분 체크
+                        --blass._checkInputCounter;
+                        if (blass._checkInputCounter <= 0) {
+                            blass._checkInputResetCounter();
+                            blass._setAutoCompleteData(blass._virtualAddressInput.value);
                         }
                     }
                 }
 
-                _this._checkInputData();    // 입력값 체크
+                blass._checkInputData();    // 입력값 체크
             }, this._checkInputInterval);
         }
     },
