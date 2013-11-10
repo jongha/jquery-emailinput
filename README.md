@@ -30,3 +30,7 @@ eai_to.getAddresses().join(",");
 
 ## `Documentation`
 Documentation and examples are here: http://jongha.github.io/emailaddressinput.js
+
+## `License`
+
+emailaddressinput.js is available under the terms of the [MIT License](https://github.com/jongha/emailaddressinput.js/blob/master/LICENSE).
