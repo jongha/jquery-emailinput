@@ -1,72 +1,26 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
     <head>
-        <script type="text/javascript" src="../dist/emailaddressinput.min.js"></script>
-        <style>
-        body, input { font: 13px Helvetica, arial, freesans, clean, sans-serif; }
-        </style>
+        <title>jquery.emailinput Demo</title>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <link rel="stylesheet" href="../dist/jquery.emailinput.min.css">
+        <script type="text/javascript" src="../dist/jquery.emailinput.min.js"></script>
     </head>
     <body>
-        TO:
-        <div style="width:300px">
-            <div id="pto"></div>
-            <div style="display:none"><input type="text" id="lto" /></div>
-        </div>
-
-        CC:
-        <div style="width:300px">
-            <div id="pcc"></div>
-            <div style="display:none"><input type="text" id="lcc" /></div>
-        </div>
-
-        BCC: 
-        <div style="width:300px">
-            <div id="pbcc"></div>
-            <div style="display:none"><input type="text" id="lbcc" /></div>
-        </div>
-
-        <div>
-            <input type="button" value="Get Address" onclick="getAddress();" />
-        </div>
-        
-        <br />
-        Result:
-        <div id="result"></div>        
+        <div><input type="text" class="emailinput ei" /></div>
+        <div><input id="getAddress" type="button" value="Get Address" /></div>
+        <div id='output'></div>
     </body>
-
     <script language="javascript" type="text/javascript">
-
-    var eai_to = EmailAddressInput;
-    var eai_cc = EmailAddressInput.clone();
-    var eai_bcc = EmailAddressInput.clone();
-    
-    // initialize
-    (function init() {
-        eai_to.init("pto", { id: "to"}, { handler: null, callback: null });
-        eai_cc.init("pcc", {id: "cc"}, { handler: null, callback: null });
-        eai_bcc.init("pbcc", {id: "bcc"}, { handler: null, callback: null });
-
-        var to = document.getElementById("lto").innerHTML.split(',');
-        var cc = document.getElementById("lcc").innerHTML.split(',');
-        var bcc = document.getElementById("lbcc").innerHTML.split(',');
-
-        for(var i=0; i<to.length; i++) {
-            var address = to[i].trim().split('|');
-            if(address.length < 3 || address[0] != "G") eai_to.createAddressBox({text: to[i], value: to[i] });
-            else eai_to.createAddressBox({text: address[1], value: to[i], validation: true});
-        }
-        for(var i=0; i<cc.length; i++) eai_cc.createAddressBox({text: cc[i], value: cc[i] });
-        for(var i=0; i<bcc.length; i++) eai_bcc.createAddressBox({text: bcc[i], value: bcc[i] });
-    })();
-    
-    function getAddress() {
-        var result = document.getElementById("result");
-        result.innerHTML = "TO: " + eai_to.getAddresses().join(",");
-        result.innerHTML += ", CC: " + eai_cc.getAddresses().join(",");
-        result.innerHTML += ", BCC: " + eai_bcc.getAddresses().join(",");
-    }
-
-    </script>   
- 
+        $('.emailinput').emailinput({ onlyValidValue: true, delim: ',' }); // initialize
+        $('#getAddress').bind('click', function() {
+            var output = $('#output').empty();
+            $('.emailinput').each(function() {
+                output.append($(this).val());
+                console.log($(this).val());
+                
+            });
+        });
+    </script>
 </html>
 

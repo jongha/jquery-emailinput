@@ -5,8 +5,8 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     // Metadata.
-    pkg: grunt.file.readJSON('emailaddressinput.json'),
-    name: 'emailaddressinput',
+    pkg: grunt.file.readJSON('jquery.emailinput.json'),
+    name: 'jquery.emailinput',
     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
@@ -23,8 +23,17 @@ module.exports = function(grunt) {
       dist: {
         src: 'src/<%= name %>.js',
         dest: 'dist/<%= name %>.min.js'
-      },
+      }    
     },
+    cssmin: {
+      options: {
+        banner: '<%= banner %>'
+      },
+      dist: {
+        src: 'src/<%= name %>.css',
+        dest: 'dist/<%= name %>.min.css'
+      }    
+    },    
     jshint: {
       gruntfile: {
         options: {
@@ -44,8 +53,9 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-
+  
   // Default task.
-  grunt.registerTask('default', ['clean', 'jshint', 'uglify']);
+  grunt.registerTask('default', ['clean', 'jshint', 'uglify', 'cssmin']);
 };

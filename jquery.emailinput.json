@@ -1,0 +1,19 @@
+{
+    "name": "jquery.emailinput",
+    "title": "jquery.emailinput.js",
+    "description": "Javascript e-mail address input library",
+    "version": "1.0.1",
+    "author": {
+        "name": "Jong-Ha Ahn",
+        "email": "onpissoft@gmail.com",
+        "url": "https://www.mrlatte.net"
+    },
+    "licenses": [{
+        "type": "MIT",
+        "url": "https://github.com/jongha/jquery.emailinput.js/blob/master/LICENSE"}
+    ],
+    "keywords": ["email", "address", "input"],
+    "bugs": "https://github.com/jongha/jquery.emailinput.js/issues",
+    "homepage": "https://github.com/jongha/jquery.emailinput.js",
+    "docs": "https://github.com/jongha/jquery.emailinput.js"
+}

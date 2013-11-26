@@ -1,36 +1,51 @@
-# emailaddressinput.js
-emailaddressinput.js is simple email address input control for Javascript.
+# jquery-emailinput
 
-## `.init(id, style, autoCompleteHandler)`
-Initialize emailaddressinput control.
+jquery-emailinput is email address input control for JQuery. It is really simple.
 
-```Javascript
-var eai_to = EmailAddressInput;
-eai_to.init("pto", { id: "to"}, { handler: null, callback: null });
+## `Usage`
+
+Initialize
+
 ```
-```Javascript
-For Multiple control in one page.
-
-var eai_to = EmailAddressInput;
-var eai_cc = EmailAddressInput.clone();
-var eai_bcc = EmailAddressInput.clone();
-
-eai_to.init("pto", { id: "to"}, { handler: null, callback: null });
-eai_cc.init("pcc", {id: "cc"}, { handler: null, callback: null });
-eai_bcc.init("pbcc", {id: "bcc"}, { handler: null, callback: null });
+$('#target').emailinput();
 ```
 
-## `.getAddresses()`
-Return the entered the e-mail addresses. Returns are `Array()` data type.
-```Javascript
-eai_to.getAddresses();
-...
-eai_to.getAddresses().join(",");
+Chagne control id.
+
 ```
+$('#target').emailinput( { id: 'changed id' );
+```
+
+Retrieve the values.
+
+```
+$('#target').val();
+```
+
+Manage only valid email address only.
+
+```
+$('#target').emailinput( { onlyValidValue: true ); // default: true
+```
+
+Manage only valid email address only.
+
+```
+$('#target').emailinput( { onlyValidValue: true ); // default: true
+```
+
+Change delimiters of retrieve the value.
+
+```
+$('#target').emailinput( { delim: ';' ); // default: ','
+```
+
 
 ## `Documentation`
-Documentation and examples are here: http://jongha.github.io/emailaddressinput.js
+
+Documentation and examples are here: http://jongha.github.io/jquery-emailinput
+
 
 ## `License`
 
-emailaddressinput.js is available under the terms of the [MIT License](https://github.com/jongha/emailaddressinput.js/blob/master/LICENSE).
+emailaddressinput.js is available under the terms of the [MIT License](https://github.com/jongha/jquery-emailinput/blob/master/LICENSE).
