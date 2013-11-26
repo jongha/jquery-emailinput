@@ -40,12 +40,6 @@ Change delimiters of retrieve the value.
 $('#target').emailinput( { delim: ';' ); // default: ','
 ```
 
-
-## `Documentation`
-
-Documentation and examples are here: http://jongha.github.io/jquery-emailinput
-
-
 ## `License`
 
 emailaddressinput.js is available under the terms of the [MIT License](https://github.com/jongha/jquery-emailinput/blob/master/LICENSE).
