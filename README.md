@@ -10,7 +10,7 @@ Initialize
 $('#target').emailinput();
 ```
 
-Chagne control id.
+Change internally control id.
 
 ```
 $('#target').emailinput( { id: 'changed id' );
