@@ -2,7 +2,7 @@
     "name": "emailinput",
     "title": "jQuery email input",
     "description": "Support input control for email address",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "author": {
         "name": "Jong-Ha Ahn",
         "email": "onpissoft@gmail.com",
@@ -16,7 +16,7 @@
         "url": "https://github.com/jongha/jquery.emailinput.js/blob/master/LICENSE"}
     ],
     "keywords": ["email", "address", "input"],
-    "bugs": "https://github.com/jongha/jquery.emailinput.js/issues",
-    "homepage": "https://github.com/jongha/jquery.emailinput.js",
-    "docs": "https://github.com/jongha/jquery.emailinput.js"
+    "bugs": "https://github.com/jongha/jquery.emailinput/issues",
+    "homepage": "https://github.com/jongha/jquery.emailinput",
+    "docs": "https://github.com/jongha/jquery.emailinput"
 }
