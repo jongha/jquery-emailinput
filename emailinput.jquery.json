@@ -1,8 +1,8 @@
 {
-    "name": "jquery.emailinput",
-    "title": "jquery.emailinput.js",
-    "description": "Javascript e-mail address input library",
-    "version": "1.0.1",
+    "name": "emailinput",
+    "title": "jQuery email input",
+    "description": "Support input control for email address",
+    "version": "1.0.2",
     "author": {
         "name": "Jong-Ha Ahn",
         "email": "onpissoft@gmail.com",

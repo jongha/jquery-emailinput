@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     // Metadata.
-    pkg: grunt.file.readJSON('jquery.emailinput.json'),
+    pkg: grunt.file.readJSON('emailinput.jquery.json'),
     name: 'jquery.emailinput',
     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
