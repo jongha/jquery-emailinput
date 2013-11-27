@@ -1,6 +1,6 @@
-# jquery-emailinput
+# jQuery-emailinput
 
-jquery-emailinput is email address input control for JQuery. It is really simple.
+jQuery-emailinput is email address input control for jQuery. It is really simple.
 
 ## `Usage`
 
