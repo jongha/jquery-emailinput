@@ -71,7 +71,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
-
+  grunt.loadNpmTasks('grunt-shell');
+  
   // Default task.
   grunt.registerTask('default', ['clean', 'jshint', 'qunit', 'uglify', 'cssmin']);
 
