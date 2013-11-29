@@ -47,12 +47,7 @@ module.exports = function(grunt) {
         },
         src: ['src/**/*.js']
       }
-    },
-    shell: {
-      'coverall': {
-        command: 'node_modules/coveralls/bin/coveralls.js < report/coverage/lcov.info'
-      }
-    },
+    }
   });
 
   // These plugins provide necessary tasks.
@@ -65,5 +60,5 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['clean', 'jshint', 'uglify', 'cssmin']);
 
   // Travis task.
-  grunt.registerTask('travis', ['jshint', 'shell:coverall']);
+  grunt.registerTask('travis', ['jshint']);
 };
