@@ -1,4 +1,4 @@
-# jQuery-emailinput [![Build Status](https://travis-ci.org/jongha/jquery-emailinput.png?branch=master)](https://travis-ci.org/jongha/jquery-emailinput)
+# jQuery-emailinput [![Build Status](https://travis-ci.org/jongha/jquery-emailinput.png?branch=master)](https://travis-ci.org/jongha/jquery-emailinput) [![Coverage Status](https://coveralls.io/repos/jongha/jquery-emailinput/badge.png)](https://coveralls.io/r/jongha/jquery-emailinput) [![Dependency Status](https://gemnasium.com/jongha/jquery-emailinput.png)](https://gemnasium.com/jongha/jquery-emailinput)
 
 jQuery-emailinput is email address input control for jQuery. It is really simple.
 
