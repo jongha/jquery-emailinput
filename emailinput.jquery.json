@@ -2,7 +2,7 @@
     "name": "emailinput",
     "title": "jQuery email input",
     "description": "Support input control for email address",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "author": {
         "name": "Jong-Ha Ahn",
         "email": "onpissoft@gmail.com",

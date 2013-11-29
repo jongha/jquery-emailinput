@@ -1,13 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
     <head>
-        <title>jquery.emailinput Demo</title>
+        <title>jQuery.emailinput Demo</title>
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
         <link rel="stylesheet" href="../dist/jquery.emailinput.min.css">
         <script type="text/javascript" src="../dist/jquery.emailinput.min.js"></script>
+        <style>
+            body {
+                font-family: verdana,helvetica,arial,sans-serif;
+                font-size: 13px;
+            }
+        </style>
     </head>
     <body>
-        <div><input type="text" class="emailinput ei" /></div>
+        <fieldset>
+            <legend>Input</legend>
+            <div>From: <input type="text" id='from' class="emailinput ei" value='me@domain.com' /></div>
+            <div>To: <input type="text" id='to' class="emailinput ei" value='user@domain.com,user2@domain.com,wronguser.com' /></div>
+            <div>CC: <input type="text" id='cc' class="emailinput ei" /></div>
+            <div>BCC: <input type="text" id='bcc' class="emailinput ei" /></div>
+        </fieldset>
         <div><input id="getAddress" type="button" value="Get Address" /></div>
         <div id='output'></div>
     </body>
@@ -15,11 +27,10 @@
         $('.emailinput').emailinput({ onlyValidValue: true, delim: ',' }); // initialize
         $('#getAddress').bind('click', function() {
             var output = $('#output').empty();
-            $('.emailinput').each(function() {
-                output.append($(this).val());
-                console.log($(this).val());
-                
-            });
+            output.append('From: ' + $('#from').val() + '<br />');
+            output.append('To: ' + $('#to').val() + '<br />');
+            output.append('CC: ' + $('#cc').val() + '<br />');
+            output.append('BCC: ' + $('#bcc').val() + '<br />');
         });
     </script>
 </html>
