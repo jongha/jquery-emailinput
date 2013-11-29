@@ -34,6 +34,16 @@ module.exports = function(grunt) {
         dest: 'dist/<%= name %>.min.css'
       }
     },
+    qunit: {
+      files: ['test/**/*.html'],
+      options: {
+        coverage: {
+          src: ['src/**/*.js'],
+          instrumentedFiles: "temp/",
+          lcovReport: "report/coverage"
+        }
+      }
+    },    
     jshint: {
       gruntfile: {
         options: {
@@ -47,7 +57,12 @@ module.exports = function(grunt) {
         },
         src: ['src/**/*.js']
       }
-    }
+    },
+    shell: {
+      'coverall': {
+        command: 'node_modules/coveralls/bin/coveralls.js < report/coverage/lcov.info'
+      }
+    },
   });
 
   // These plugins provide necessary tasks.
@@ -55,10 +70,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
 
   // Default task.
-  grunt.registerTask('default', ['clean', 'jshint', 'uglify', 'cssmin']);
+  grunt.registerTask('default', ['clean', 'jshint', 'qunit', 'uglify', 'cssmin']);
 
   // Travis task.
-  grunt.registerTask('travis', ['jshint']);
+  grunt.registerTask('travis', ['jshint', 'qunit', 'shell:coverall']);
 };
