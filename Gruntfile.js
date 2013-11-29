@@ -43,7 +43,7 @@ module.exports = function(grunt) {
           lcovReport: "report/coverage"
         }
       }
-    },    
+    },
     jshint: {
       gruntfile: {
         options: {
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
       }
     },
     shell: {
-      'coverall': {
+      coverall: {
         command: 'node_modules/coveralls/bin/coveralls.js < report/coverage/lcov.info'
       }
     },
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'qunit', 'clean', 'uglify', 'cssmin']);
-  
+
   // Travis task.
   grunt.registerTask('travis', ['jshint', 'qunit', 'shell:coverall']);
 };
