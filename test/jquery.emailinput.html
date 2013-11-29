@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>jQUery emailinput Test Suite</title>
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <!-- Load local QUnit (grunt requires v1.0.0 or newer). -->
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css" media="screen">
+  <script src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
+  <!-- Load local lib and tests. -->
+  <script src="../src/jquery.emailinput.js"></script>
+  <script src="jquery.emailinput_test.js"></script>
+  <!-- Removing access to jQuery and $. But it'll still be available as _$, if
+       you REALLY want to mess around with jQuery in the console. REMEMBER WE
+       ARE TESTING YOUR PLUGIN HERE -->
+  <script>window._$ = jQuery.noConflict(true);</script>
+</head>
+<body>
+  <h1 id="qunit-header">jQUery emailinput Test Suite</h1>
+  <h2 id="qunit-banner"></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  <div id="qunit-fixture">
+    <input type="text" id="case1" value="user1@domain.com" />
+    <input type="text" id="case2" value="user1@domain.com,user2@domain.com" />
+    <input type="text" id="case3" value="user1@domain.com,user2@domain.com,user3@domain.com" />
+    <input type="text" id="case4" value="user1@domain.com" />
+    <input type="text" id="case5" value="user1@domain.com|user2@domain.com" />
+    <input type="text" id="case6" value="user1@domain.com,user2@domain.com,wrong@user" />
+  </div>
+</body>
+</html>
