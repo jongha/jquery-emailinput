@@ -6,7 +6,7 @@
     "author": {
         "name": "Jong-Ha Ahn",
         "email": "onpissoft@gmail.com",
-        "url": "https://www.mrlatte.net"
+        "url": "http://www.mrlatte.net"
     },
     "dependencies": {
         "jquery": ">=1.7.0"
