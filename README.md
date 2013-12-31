@@ -45,4 +45,4 @@ $('#target').emailinput( { delim: ';' ); // default: ','
 
 ## `License`
 
-emailaddressinput.js is available under the terms of the [MIT License](https://github.com/jongha/jquery-emailinput/blob/master/LICENSE).
+jQuery-emailinput is available under the terms of the [MIT License](https://github.com/jongha/jquery-emailinput/blob/master/LICENSE).
