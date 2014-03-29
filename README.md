@@ -7,7 +7,7 @@ jQuery-emailinput is email address input control for jQuery. This is jQuery plug
 
 ## Screenshot
 
-![Screenshot](https://github.com/jongha/jquery-emailinput/master/demo/screenshot.png)
+![Screenshot](https://raw.github.com/jongha/jquery-emailinput/master/demo/screenshot.png)
 
 ## `Usage`
 
