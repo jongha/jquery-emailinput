@@ -5,6 +5,10 @@
 
 jQuery-emailinput is email address input control for jQuery. This is jQuery plugin. This is required when creating an web mail service such as hotmail and gmail. It supports validation of email address.
 
+## Screenshot
+
+![Screenshot](https://github.com/jongha/jquery-emailinput/master/demo/screenshot.png)
+
 ## `Usage`
 
 Initialize
