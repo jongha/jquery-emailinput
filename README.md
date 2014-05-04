@@ -49,4 +49,4 @@ $('#target').emailinput( { delim: ';' ); // default: ','
 
 ## License
 
-jQuery-emailinput is available under the terms of the MIT.
+jQuery-emailinput is available under the terms of the MIT License.
