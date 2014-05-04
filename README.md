@@ -9,7 +9,7 @@ jQuery-emailinput is email address input control for jQuery. This is jQuery plug
 
 ![Screenshot](https://raw.github.com/jongha/jquery-emailinput/master/demo/screenshot.png)
 
-## `Usage`
+## Usage
 
 Initialize
 
@@ -47,6 +47,6 @@ Change delimiters of retrieve the value.
 $('#target').emailinput( { delim: ';' ); // default: ','
 ```
 
-## `License`
+## License
 
 jQuery-emailinput is available under the terms of the [MIT License](https://github.com/jongha/jquery-emailinput/blob/master/LICENSE).
